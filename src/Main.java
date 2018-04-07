@@ -11,11 +11,11 @@ public class Main {
         int node_val;
         int m = getIntInput("Please enter the width of your matrix."); // x direction
         int n = getIntInput("Please enter the height of your matrix."); // y direction
-        matrix = new Node[n][m];
+        matrix = new Node[m][n];
 
-        for (int i = 0; i < n; i++){
-            for (int j = 0; j < m; j++){
-                node_val = getIntInput(String.format("Please enter the node value for position y=[%d] x=[%d]", i + 1, j + 1));
+        for (int i = 0; i < m; i++){
+            for (int j = 0; j < n; j++){
+                node_val = getIntInput(String.format("Please enter the node value for position x=[%d] y=[%d]", j + 1, i + 1));
                 matrix[i][j] = new Node(node_val);
             }
         }
