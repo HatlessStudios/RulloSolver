@@ -2,18 +2,41 @@ import java.util.Scanner;
 
 public class Main {
 
+    private static Node[][] matrix;
+
     public static void main(String[] args){
 
         System.out.println("Rullo solver is running...");
 
+        int node_val;
+        int m = getIntInput("Please enter the width of your matrix."); // x direction
+        int n = getIntInput("Please enter the height of your matrix."); // y direction
+        matrix = new Node[m][n];
+
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < m; j++){
+                node_val = getIntInput(String.format("Please enter the node value for position x=[%d] y=[%d]", j, i));
+                matrix[j][i] = new Node(node_val);
+            }
+        }
+
+        printMatrix();
 
     }
 
-    private int getIntInput(String prompt){
+    private static int getIntInput(String prompt){
 
         System.out.println(prompt);
         Scanner inputter = new Scanner(System.in);
 
         return inputter.nextInt();
+    }
+
+    private static void printMatrix(){
+        for (Node[] j: matrix) {
+            for (Node i: j){
+                System.out.println(i);
+            }
+        }
     }
 }
