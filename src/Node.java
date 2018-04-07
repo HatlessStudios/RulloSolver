@@ -32,6 +32,8 @@ class Node {
         return lock;
     }
 
+    boolean getState() { return state; }
+
     void setState(boolean newState){
         state = newState;
     }

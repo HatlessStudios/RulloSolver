@@ -45,7 +45,7 @@ public class GUI extends JFrame{
 
         for (int i = 0; i < n; i++){
             for (int j = 0; j < m; j++){
-                add(new CircleLabel(" " + Integer.toString(matrix[j][i].getValue()), Color.yellow));
+                add(new CircleLabel(" " + Integer.toString(matrix[j][i].getValue()), matrix[j][i].getState() ? Color.YELLOW : Color.BLACK));
             }
         }
     }
