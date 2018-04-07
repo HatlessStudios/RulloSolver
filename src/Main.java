@@ -11,12 +11,12 @@ public class Main {
         int node_val;
         int m = getIntInput("Please enter the width of your matrix."); // x direction
         int n = getIntInput("Please enter the height of your matrix."); // y direction
-        matrix = new Node[m][n];
+        matrix = new Node[n][m];
 
         for (int i = 0; i < n; i++){
             for (int j = 0; j < m; j++){
-                node_val = getIntInput(String.format("Please enter the node value for position x=[%d] y=[%d]", j, i));
-                matrix[j][i] = new Node(node_val);
+                node_val = getIntInput(String.format("Please enter the node value for position y=[%d] x=[%d]", i + 1, j + 1));
+                matrix[i][j] = new Node(node_val);
             }
         }
 
@@ -35,8 +35,9 @@ public class Main {
     private static void printMatrix(){
         for (Node[] j: matrix) {
             for (Node i: j){
-                System.out.println(i);
+                System.out.print(String.format("[%d]", i.getValue()));
             }
+            System.out.println();
         }
     }
 }
