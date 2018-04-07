@@ -12,5 +12,24 @@ class Node {
 
     }
 
-    int get()
+    int getValue(){
+        return value;
+    }
+
+    boolean isOn(){
+        return state;
+    }
+
+    boolean isLocked(){
+        return lock;
+    }
+
+    void setState(boolean newState){
+        state = newState;
+    }
+
+    void setLock(boolean newState){
+        lock = newState;
+    }
+
 }
