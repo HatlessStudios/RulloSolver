@@ -1,5 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
+import graphics.CircleLabel;
 
 public class GUI extends JFrame{
 
@@ -30,7 +31,7 @@ public class GUI extends JFrame{
     }
 
     public static void main(String[] args){
-        GUI app = new GUI(10, 10);
+        GUI app = new GUI(2, 2, new Node[][] {{new Node(1), new Node(1)}, {new Node(1), new Node(1)}});
     }
 
     /**
@@ -42,9 +43,9 @@ public class GUI extends JFrame{
         solution = new JPanel();
         solution.setLayout(new GridLayout(m,n));
 
-        for (int i = 0; i <= n; i++){
-            for (int j = 0; j <= m; j++){
-                add(new CircleLabel(matrix[j][i]));
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < m; j++){
+                add(new CircleLabel(" " + Integer.toString(matrix[j][i].getValue()), Color.yellow));
             }
         }
     }
