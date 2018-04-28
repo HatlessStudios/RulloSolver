@@ -15,8 +15,16 @@ public class Main {
 
         for (int i = 0; i < m; i++){
             for (int j = 0; j < n; j++){
-                node_val = getIntInput(String.format("Please enter the node value for position x=[%d] y=[%d]", j + 1, i + 1));
-                matrix[i][j] = new Node(node_val);
+                if (j != n - 1 || i != m - 1) {
+                    node_val = getIntInput(String.format("Please enter the node value for position x=[%d] y=[%d]", j + 1, i + 1));
+
+                    if (j == n - 1 || i == m - 1)
+                        matrix[i][j] = new RCDiff(node_val);
+                    else
+                        matrix[i][j] = new Node(node_val);
+                }
+                else
+                    matrix[i][j] = new Node(0);
             }
         }
 
