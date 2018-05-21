@@ -14,13 +14,16 @@ import java.awt.geom.Ellipse2D;
 
 public class CircleLabel extends JLabel {
 
+    private static final float THICKNESS = 20F;
     private Color colour;
+
 
     public CircleLabel(String text, Color colour, Dimension size){
         super(text);
         setForeground(Color.WHITE);
         this.colour = colour;
-        setFont(new Font("Serif", Font.PLAIN, size.height));
+        setFont(new Font("Serif", Font.PLAIN, size.height * 7 / 10));
+        setHorizontalAlignment(CENTER);
         super.setPreferredSize(size);
     }
 
@@ -62,12 +65,12 @@ public class CircleLabel extends JLabel {
         Insets insets = getInsets();
         int width = (getWidth() - (insets.left + insets.right));
         int height = getHeight() - (insets.top + insets.bottom);
-        int radius = Math.max(width, height);
-        int x = insets.left + ((width - radius) / 2);
-        int y = insets.top + ((height - radius) / 2);
+        double radius = Math.max(width, height) - THICKNESS;
+        double x = insets.left + ((width - radius) / 2);
+        double y = insets.top + ((height - radius) / 2);
         g2d.setColor(colour);
         super.paintComponent(g2d);
-        g2d.setStroke(new BasicStroke(20F));
+        g2d.setStroke(new BasicStroke(THICKNESS));
         g2d.draw(new Ellipse2D.Double(x, y, radius, radius));
     }
 }
