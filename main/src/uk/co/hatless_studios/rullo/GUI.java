@@ -6,6 +6,7 @@ import uk.co.hatless_studios.rullo.graphics.CircleLabel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -28,7 +29,7 @@ public class GUI extends JFrame {
 
         //Set window properties
         setTitle("Rullo Solution");
-        setSize(1000, 1000);
+        setSize(500, 500);
         setLocation(250, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
@@ -58,7 +59,7 @@ public class GUI extends JFrame {
 
         for (int i = 0; i < n; i++){
             for (int j = 0; j < m; j++){
-                solution.add(new CircleLabel(" " + Integer.toString(matrix[j][i].getValue()), matrix[j][i].getState() ? Color.YELLOW : Color.WHITE));
+                solution.add(new CircleLabel(" " + Integer.toString(matrix[j][i].getValue()), matrix[j][i].getState() ? Color.YELLOW : Color.WHITE, new Dimension((this.getWidth()/m) - 50, (this.getHeight()/n) - 50)));
             }
         }
     }
