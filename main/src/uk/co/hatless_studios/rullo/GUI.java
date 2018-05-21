@@ -48,7 +48,7 @@ public class GUI extends JFrame {
     }
 
     public static void main(String[] args){
-        GUI app = new GUI(2, 2, new Node[][] {{new Node(1), new Node(1)}, {new Node(1), new Node(1)}});
+        GUI app = new GUI(3, 3, new Node[][] {{new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1)}});
     }
 
     /**
