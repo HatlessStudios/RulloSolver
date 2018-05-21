@@ -69,7 +69,7 @@ public class GUI extends JFrame {
             for (int j = 0; j < m; j++){
                 constraints.gridx = i;
                 constraints.gridy = j + 1;
-                solution.add(new CircleLabel(Integer.toString(matrix[j][i].getValue()), matrix[j][i].getState() ? Color.YELLOW : Color.WHITE, new Dimension((this.getWidth()/m) - 50, (this.getHeight()/n) - 50)), constraints);
+                solution.add(new CircleLabel(Integer.toString(matrix[j][i].getValue()), matrix[j][i].getState() ? Color.GREEN : Color.RED, new Dimension((this.getWidth()/m) - 50, (this.getHeight()/n) - 50)), constraints);
             }
         }
     }
