@@ -23,7 +23,7 @@ public class CircleLabel extends JLabel {
         setForeground(Color.WHITE);
         this.colour = colour;
         this.thickness = size.height/10;
-        setFont(new Font("Serif", Font.PLAIN, size.height * 7 / 10));
+        setFont(new Font("Serif", Font.BOLD, size.height * 9 / 10));
         setHorizontalAlignment(CENTER);
         super.setPreferredSize(size);
     }

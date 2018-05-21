@@ -41,27 +41,28 @@ public class GUI extends JFrame {
         setResizable(false);
 
         //Generate solution panel and pack into window
-        panel(m, n, matrix);
+        createPanel(m, n, matrix);
         this.getContentPane().add(solution, BorderLayout.CENTER);
         this.pack();
         setVisible(true);
     }
 
     public static void main(String[] args){
-        GUI app = new GUI(3, 3, new Node[][] {{new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1)}});
+        GUI app = new GUI(8, 8, new Node[][] {{new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}});
     }
 
     /**
      * Creates the panel in the grid layout
-     * @param m, n The dimensions of the grid
+     * @param m, n : The dimensions of the grid
+     * @param matrix : The matrix of nodes
      */
-    void panel(int m, int n, Node[][] matrix){
+    void createPanel(int m, int n, Node[][] matrix){
 
         solution = new JPanel();
         solution.setLayout(new GridBagLayout());
         solution.setBackground(Color.BLACK);
 
-        GridBagConstraints constraints = new GridBagConstraints(0, 0, n, 1, 0D, 0D, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 10, 10, 10), 10, 10);
+        GridBagConstraints constraints = new GridBagConstraints(0, 0, n, 1, 0D, 0D, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 10, 10, 10), 20, 20);
         solution.add(lblCount, constraints);
 
         constraints.gridwidth = 1;
