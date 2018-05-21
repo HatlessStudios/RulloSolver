@@ -2,23 +2,26 @@ package uk.co.hatless_studios.rullo;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Methods are listed in the order (descending) in which they should be used.
  * Each is logically both more powerful, and faster than the next.
  */
-public class Rules{
-
+public class Rules {
     /**
      * Wrapper for tree nodes. Makes partitioning much easier.
      */
-    public class TreeNode{
+    public class TreeNode {
 
         private Node[] visited;
         private Node[] toVisit;
 
-        TreeNode(Node[] visited, Node[] toVisit){
+        TreeNode(Node[] visited, Node[] toVisit) {
             this.visited = visited;
             this.toVisit = toVisit;
         }
@@ -37,9 +40,9 @@ public class Rules{
      * @param row A list of nodes.
      * @return True if all nodes are locked, else False.
      */
-    boolean allLocked(Node[] row){
+    boolean allLocked(Node[] row) {
         for (Node node : row) {
-            if (!node.isLocked()){
+            if (!node.isLocked()) {
                 return false;
             }
         }
@@ -51,8 +54,8 @@ public class Rules{
      * @param row A list of nodes.
      * @param aim The row's edge node.
      */
-    void checkSum(Node[] row, int aim){
-        if (rowSum(row) == aim){
+    void checkSum(Node[] row, int aim) {
+        if (rowSum(row) == aim) {
             for (Node node : row) {
                 node.setLock();
             }
@@ -64,15 +67,15 @@ public class Rules{
      * @param row A list of nodes.
      * @param aim The row's edge node.
      */
-    void finalElement(Node[] row, int aim){
+    void finalElement(Node[] row, int aim) {
 
         int count = 0;
         for (Node node : row) {
-            if (!node.isLocked()){
+            if (!node.isLocked()) {
                 count++;
             }
         }
-        if (count == 1){
+        if (count == 1) {
             if (rowSum(row) == aim){
                 for (Node node : row) {
                     node.setLock();
@@ -80,7 +83,7 @@ public class Rules{
             }
             else{
                 for (Node node : row) {
-                    if (!node.isLocked()){
+                    if (!node.isLocked()) {
                         node.setState();
                         node.setLock();
                         return;
@@ -94,10 +97,10 @@ public class Rules{
      * Locks nodes that would dip the row sum below the aim.
      * @param row List of nodes in the row.
      */
-    void valDiff(Node[] row, int aim){
+    void valDiff(Node[] row, int aim) {
         int rowDiff = rowSum(row) - aim;
         for (Node node : row) {
-            if (node.getValue() > rowDiff){
+            if (node.getValue() > rowDiff) {
                 node.setLock();
             }
         }
@@ -108,19 +111,19 @@ public class Rules{
      * @param row The row of nodes being checked.
      * @param aim The row's end node.
      */
-    void singleOdd(Node[] row, int aim){
+    void singleOdd(Node[] row, int aim) {
         if (((rowSum(row) - aim) % 2) == 0){
             return;
         }
         int count = 0;
         for (Node node : row) {
-            if (node.isOdd() && node.isOn() && !node.isLocked()){
+            if (node.isOdd() && node.isOn() && !node.isLocked()) {
                 count++;
             }
         }
-        if (count == 1){
+        if (count == 1) {
             for (Node node : row) {
-                if (node.isOdd()){
+                if (node.isOdd()) {
                     node.setState();
                     node.setLock();
                     return;
@@ -131,12 +134,57 @@ public class Rules{
 
     /**
      * Checks if any particular row value must be on XOR off due to presence in partitions of the aim.
+     * If there is such a row value, its node will be locked in the appropriate position.
      * @param row List of nodes.
      * @param aim The row edge node.
      */
-    void singlePartition(Node[] row, int aim){
-
-
+    void singlePartition(Node[] row, int aim) {
+        int sum = rowSum(row);
+        if (sum == aim) return;
+        if (sum < aim) throw new IllegalStateException("impossible to reach aim");
+        boolean mod;
+        while (true) {
+            mod = false;
+            Map<Integer, List<Node>> duplicates = new HashMap<>();
+            for (Node node : row) {
+                if (!duplicates.containsKey(node.getValue())) {
+                    duplicates.put(node.getValue(), new ArrayList<>());
+                } else {
+                    mod = true;
+                }
+                duplicates.get(node.getValue()).add(node);
+            }
+            if (!mod) break;
+            List<Node> pruned = new ArrayList<>(row.length);
+            for (List<Node> nodes : duplicates.values()) {
+                if (nodes.size() == 1) {
+                    pruned.add(nodes.get(0));
+                } else {
+                    pruned.add(new MergedNode(nodes.toArray(row)));
+                }
+            }
+            row = pruned.toArray(row);
+        }
+        switch (row.length) {
+            case 0: return;
+            case 1: throw new IllegalStateException("impossible to reach aim");
+        }
+        Deque<Frame> stack = new ArrayDeque<>(row.length);
+        stack.add(new Frame(row[0], sum, new int[row.length]));
+        while (stack.size() > 0) {
+            Frame current = stack.peekLast();
+            sum = current.sum - current.node.getValue();
+            if (current.sum - current.node.getValue() == 0) {
+                current.node.setLock();
+                stack.removeLast();
+                continue;
+            }
+            if (current.unvisited.length == 0) {
+                stack.removeLast();
+            } else {
+                stack.add(new Frame(row[0], sum, Arrays.copyOf(current.unvisited, --current.unvisitedLength)));
+            }
+        }
     }
 
     /**
@@ -144,7 +192,7 @@ public class Rules{
      * @param row The row to be evaluated.
      * @return The total value.
      */
-    private int rowSum(Node[] row){
+    private int rowSum(Node[] row) {
         int sum = 0;
         for (Node node :
                 row) {
@@ -153,5 +201,39 @@ public class Rules{
             }
         }
         return sum;
+    }
+
+    private class MergedNode extends Node {
+        private Node[] nodes;
+
+        MergedNode(Node[] nodes) {
+            super(rowSum(nodes));
+        }
+
+        @Override
+        void setLock() {
+            super.setLock();
+            for (Node node : nodes) node.setLock();
+        }
+
+        @Override
+        void setState() {
+            super.setState();
+            for (Node node : nodes) node.setState();
+        }
+    }
+
+    private class Frame {
+        private Node node;
+        private int sum;
+        private int[] unvisited;
+        private int unvisitedLength;
+
+        private Frame(Node node, int sum, int[] unvisited) {
+            this.node = node;
+            this.sum = sum;
+            this.unvisited = unvisited;
+            unvisitedLength = unvisited.length;
+        }
     }
 }
