@@ -1,12 +1,36 @@
 package uk.co.hatless_studios.rullo;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 
 /**
  * Methods are listed in the order (descending) in which they should be used.
  * Each is logically both more powerful, and faster than the next.
  */
-public class Rules {
+public class Rules{
+
+    /**
+     * Wrapper for tree nodes. Makes partitioning much easier.
+     */
+    public class TreeNode{
+
+        private Node[] visited;
+        private Node[] toVisit;
+
+        TreeNode(Node[] visited, Node[] toVisit){
+            this.visited = visited;
+            this.toVisit = toVisit;
+        }
+
+        public Node[] getToVisit() {
+            return toVisit;
+        }
+
+        public Node[] getVisited() {
+            return visited;
+        }
+    }
 
     /**
      * Checks if all nodes in the list are locked.
@@ -112,14 +136,6 @@ public class Rules {
      */
     void singlePartition(Node[] row, int aim){
 
-        ArrayList<Node> unlocked = new ArrayList<>();
-        int diff = rowSum(row) - aim;
-
-        for (Node node : row) {
-            if (!node.isLocked()){
-                unlocked.add(node);
-            }
-        }
 
     }
 
