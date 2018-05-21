@@ -8,18 +8,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.ScrollPaneLayout;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Scanner;
 
 public class Main implements KeyListener {
     private static final Insets insets = new Insets(5, 5, 5, 5);
@@ -48,9 +45,6 @@ public class Main implements KeyListener {
             main.initializeDim();
             main.showDim();
             main.initializeTbl();
-            main.waitForInput();
-            main.showTbl(Integer.parseInt(main.heightField.getText()), Integer.parseInt(main.widthField.getText()));
-            main.waitForInput();
         }
 
         /*for (int i = 0; i < m; i++){
@@ -106,7 +100,7 @@ public class Main implements KeyListener {
         cancelButton.addKeyListener(this);
         nextButton.addKeyListener(this);
         cancelButton.addActionListener(event -> System.exit(0));
-        nextButton.addActionListener(event -> onStart());
+        nextButton.addActionListener(event -> onNext());
     }
 
     private void initializeTbl() {
@@ -138,35 +132,26 @@ public class Main implements KeyListener {
         frame.setVisible(true);
     }
 
-    private void waitForInput() {
+    private void onNext() {
         synchronized (lock) {
-            while (true) {
-                try {
-                    lock.wait();
-                } catch (InterruptedException e) {
-                    System.out.println("Interrupted");
-                    continue;
-                }
-                break;
-            }
-        }
-    }
-
-    private void onStart() {
-        synchronized (lock) {
-            lock.notifyAll();
+            showTbl(Integer.parseInt(heightField.getText()), Integer.parseInt(widthField.getText()));
         }
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {
+        if (e.getComponent() instanceof JTextField &&e.getKeyChar() < '0' || e.getKeyChar() > '9') {
+            e.consume();
+        }
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_ENTER:
                 if (frame.getFocusOwner() != cancelButton) {
-                    onStart();
+                    onNext();
+                    e.consume();
                     break;
                 }
             case KeyEvent.VK_ESCAPE:
