@@ -40,7 +40,7 @@ public class Rules {
      * @param row A list of nodes.
      * @return True if all nodes are locked, else False.
      */
-    boolean allLocked(Node[] row) {
+    static boolean allLocked(Node[] row) {
         for (Node node : row) {
             if (!node.isLocked()) {
                 return false;
@@ -67,7 +67,7 @@ public class Rules {
      * @param row A list of nodes.
      * @param aim The row's edge node.
      */
-    void finalElement(Node[] row, int aim) {
+    static void finalElement(Node[] row, int aim) {
 
         int count = 0;
         for (Node node : row) {
@@ -97,7 +97,7 @@ public class Rules {
      * Locks nodes that would dip the row sum below the aim.
      * @param row List of nodes in the row.
      */
-    void valDiff(Node[] row, int aim) {
+    static void valDiff(Node[] row, int aim) {
         int rowDiff = rowSum(row) - aim;
         for (Node node : row) {
             if (node.getValue() > rowDiff) {
@@ -111,7 +111,7 @@ public class Rules {
      * @param row The row of nodes being checked.
      * @param aim The row's end node.
      */
-    void singleOdd(Node[] row, int aim) {
+    static void singleOdd(Node[] row, int aim) {
         if (((rowSum(row) - aim) % 2) == 0){
             return;
         }
@@ -136,9 +136,9 @@ public class Rules {
      * Checks if any particular row value must be on XOR off due to presence in partitions of the aim.
      * If there is such a row value, its node will be locked in the appropriate position.
      * @param row List of nodes.
-     * @param aim The row edge node.
+      * @param aim The row edge node.
      */
-    void singlePartition(Node[] row, int aim) {
+    static void singlePartition(Node[] row, int aim) {
         int sum = rowSum(row);
         if (sum == aim) {
             for (Node node : row) {
@@ -196,7 +196,7 @@ public class Rules {
      * @param row The row to be evaluated.
      * @return The total value.
      */
-    private int rowSum(Node[] row) {
+    private static int rowSum(Node[] row) {
         int sum = 0;
         for (Node node :
                 row) {
@@ -207,11 +207,12 @@ public class Rules {
         return sum;
     }
 
-    private class MergedNode extends Node {
+    private static class MergedNode extends Node {
         private Node[] nodes;
 
         MergedNode(Node[] nodes) {
             super(rowSum(nodes));
+            this.nodes = nodes;
         }
 
         @Override
@@ -227,7 +228,7 @@ public class Rules {
         }
     }
 
-    private class Frame {
+    private static class Frame {
         private Node node;
         private int sum;
         private int[] unvisited;
