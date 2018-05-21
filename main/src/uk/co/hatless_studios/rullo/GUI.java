@@ -1,8 +1,8 @@
-package uk.co.hatless_studios;
+package uk.co.hatless_studios.rullo;
 
 import java.awt.*;
 import javax.swing.*;
-import uk.co.hatless_studios.graphics.CircleLabel;
+import uk.co.hatless_studios.rullo.graphics.CircleLabel;
 
 public class GUI extends JFrame{
 

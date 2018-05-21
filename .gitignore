@@ -168,7 +168,7 @@ tags
 .gradle
 /build/
 
-# Ignore Gradle uk.co.hatless_studios.GUI config
+# Ignore Gradle GUI config
 gradle-app.setting
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)

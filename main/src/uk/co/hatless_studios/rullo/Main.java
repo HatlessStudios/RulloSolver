@@ -1,4 +1,4 @@
-package uk.co.hatless_studios;
+package uk.co.hatless_studios.rullo;
 
 import java.util.Scanner;
 
