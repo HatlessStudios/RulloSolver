@@ -1,4 +1,4 @@
-package graphics;
+package uk.co.hatless_studios.graphics;
 
 import javax.swing.JLabel;
 import java.awt.Color;

@@ -1,3 +1,5 @@
+package uk.co.hatless_studios;
+
 import java.util.Scanner;
 
 public class Main {

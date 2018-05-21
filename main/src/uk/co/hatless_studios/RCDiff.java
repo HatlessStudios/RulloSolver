@@ -1,3 +1,5 @@
+package uk.co.hatless_studios;
+
 public class RCDiff extends Node{
 
     private int diff;

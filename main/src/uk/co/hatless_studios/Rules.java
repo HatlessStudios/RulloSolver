@@ -1,3 +1,5 @@
+package uk.co.hatless_studios;
+
 public class Rules {
 
     public boolean onlyOdd(Node[] row){

@@ -1,3 +1,5 @@
+package uk.co.hatless_studios;
+
 class Node {
 
     private int value;
