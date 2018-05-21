@@ -21,6 +21,8 @@ public class GUI extends JFrame {
 
         //Creates window with solution heading and with solution pane
         setLayout(new FlowLayout());
+        this.getContentPane().setBackground(Color.BLACK);
+        this.getContentPane().setForeground(Color.WHITE);
         lblCount = new Label("Solution");
         add(lblCount);
 
@@ -52,10 +54,11 @@ public class GUI extends JFrame {
 
         solution = new JPanel();
         solution.setLayout(new GridLayout(m,n));
+        solution.setBackground(Color.BLACK);
 
         for (int i = 0; i < n; i++){
             for (int j = 0; j < m; j++){
-                solution.add(new CircleLabel(" " + Integer.toString(matrix[j][i].getValue()), matrix[j][i].getState() ? Color.YELLOW : Color.BLACK));
+                solution.add(new CircleLabel(" " + Integer.toString(matrix[j][i].getValue()), matrix[j][i].getState() ? Color.YELLOW : Color.WHITE));
             }
         }
     }
