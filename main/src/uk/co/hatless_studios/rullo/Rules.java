@@ -140,7 +140,11 @@ public class Rules {
      */
     void singlePartition(Node[] row, int aim) {
         int sum = rowSum(row);
-        if (sum == aim) return;
+        if (sum == aim) {
+            for (Node node : row) {
+                node.setLock();
+            }
+        }
         if (sum < aim) throw new IllegalStateException("impossible to reach aim");
         boolean mod;
         while (true) {
