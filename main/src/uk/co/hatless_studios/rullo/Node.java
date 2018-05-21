@@ -30,18 +30,22 @@ class Node {
         return state;
     }
 
+    boolean isOdd(){
+        return (value % 2) == 1;
+    }
+
     boolean isLocked(){
         return lock;
     }
 
     boolean getState() { return state; }
 
-    void setState(boolean newState){
-        state = newState;
+    void setState(){
+        state = false;
     }
 
-    void setLock(boolean newState){
-        lock = newState;
+    void setLock(){
+        lock = true;
     }
 
 }

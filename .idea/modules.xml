@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RulloSolver.iml" filepath="$PROJECT_DIR$/RulloSolver.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RulloSolver_main.iml" filepath="$PROJECT_DIR$/.idea/modules/RulloSolver_main.iml" group="RulloSolver" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RulloSolver_main.iml" filepath="$PROJECT_DIR$/.idea/modules/RulloSolver_main.iml" group="RulloSolver" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RulloSolver_test.iml" filepath="$PROJECT_DIR$/.idea/modules/RulloSolver_test.iml" group="RulloSolver" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RulloSolver_test.iml" filepath="$PROJECT_DIR$/.idea/modules/RulloSolver_test.iml" group="RulloSolver" />
     </modules>
   </component>
