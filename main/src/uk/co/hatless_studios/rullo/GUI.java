@@ -1,10 +1,18 @@
 package uk.co.hatless_studios.rullo;
 
-import java.awt.*;
-import javax.swing.*;
+
 import uk.co.hatless_studios.rullo.graphics.CircleLabel;
 
-public class GUI extends JFrame{
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Label;
+
+
+public class GUI extends JFrame {
 
     private Label lblCount;
     JPanel solution;
