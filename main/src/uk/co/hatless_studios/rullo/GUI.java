@@ -7,12 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Label;
 
@@ -22,7 +20,7 @@ public class GUI extends JFrame {
     private Label lblCount;
     JPanel solution;
 
-    GUI(int m, int n, Node[][] matrix){
+    GUI(int m, int n, Node[][] matrix, int[] rowSums, int[] columnSums){
 
         //Creates window with solution heading and with solution pane
         setLayout(new BorderLayout(0, 10));
@@ -41,14 +39,14 @@ public class GUI extends JFrame {
         setResizable(false);
 
         //Generate solution panel and pack into window
-        createPanel(m, n, matrix);
+        createPanel(m, n, matrix, rowSums, columnSums);
         this.getContentPane().add(solution, BorderLayout.CENTER);
         this.pack();
         setVisible(true);
     }
 
     public static void main(String[] args){
-        GUI app = new GUI(8, 8, new Node[][] {{new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}});
+        GUI app = new GUI(8, 8, new Node[][] {{new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}}, new int[] {1, 1, 1, 1, 1, 1, 1, 1}, new int[] {1, 1, 1, 1, 1, 1, 1, 1});
     }
 
     /**
@@ -56,7 +54,7 @@ public class GUI extends JFrame {
      * @param m, n : The dimensions of the grid
      * @param matrix : The matrix of nodes
      */
-    void createPanel(int m, int n, Node[][] matrix){
+    void createPanel(int m, int n, Node[][] matrix, int[] rowSums, int[] columnSums){
 
         solution = new JPanel();
         solution.setLayout(new GridBagLayout());
@@ -72,6 +70,15 @@ public class GUI extends JFrame {
                 constraints.gridy = j + 1;
                 solution.add(new CircleLabel(Integer.toString(matrix[j][i].getValue()), matrix[j][i].getState() ? Color.GREEN : Color.RED, new Dimension((this.getWidth()/m) - 50, (this.getHeight()/n) - 50)), constraints);
             }
+            constraints.gridx = i;
+            constraints.gridy = m + 1;
+            solution.add(new CircleLabel(Integer.toString(columnSums[i]), Color.YELLOW, new Dimension((this.getWidth()/m) - 50, (this.getHeight()/n) - 50)), constraints);
+        }
+
+        for (int j = 0; j < m; j++){
+            constraints.gridx = n;
+            constraints.gridy = j + 1;
+            solution.add(new CircleLabel(Integer.toString(rowSums[j]), Color.YELLOW, new Dimension((this.getWidth()/m) - 50, (this.getHeight()/n) - 50)), constraints);
         }
     }
 }
