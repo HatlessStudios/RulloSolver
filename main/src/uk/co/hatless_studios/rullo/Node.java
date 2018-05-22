@@ -14,14 +14,6 @@ class Node {
 
     }
 
-    Node(int value, boolean lockBool){
-
-        this.value = value;
-        state = true;
-        lock = lockBool;
-
-    }
-
     int getValue(){
         return value;
     }

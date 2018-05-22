@@ -5,7 +5,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -14,12 +13,11 @@ import java.awt.geom.Ellipse2D;
 
 
 public class CircleLabel extends JLabel {
-
     private Color colour;
     private float thickness;
 
 
-    public CircleLabel(String text, Color colour, Dimension size, int width){
+    public CircleLabel(String text, Color colour, Dimension size, int width) {
         super(text);
         setForeground(Color.WHITE);
         this.colour = colour;
@@ -32,13 +30,12 @@ public class CircleLabel extends JLabel {
     @Override
     public Dimension getPreferredSize() {
         Dimension size = super.getPreferredSize();
-        size.width = Math.max(size.width, size.height);
-        size.height = size.width;
+        size.height = size.width = Math.max(size.width, size.height);
         return size;
     }
 
     @Override
-    protected void paintComponent(Graphics g){
+    protected void paintComponent(Graphics g) {
         if (g instanceof Graphics2D) {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -50,7 +47,7 @@ public class CircleLabel extends JLabel {
         g.dispose();
     }
 
-    protected void draw(Graphics g) {
+    private void draw(Graphics g) {
         Insets insets = getInsets();
         int width = (getWidth() - (insets.left + insets.right));
         int height = getHeight() - (insets.top + insets.bottom);
@@ -63,7 +60,7 @@ public class CircleLabel extends JLabel {
         g.drawOval(x, y, radius, radius);
     }
 
-    protected void draw2D(Graphics2D g2d) {
+    private void draw2D(Graphics2D g2d) {
         Insets insets = getInsets();
         int width = (getWidth() - (insets.left + insets.right));
         int height = getHeight() - (insets.top + insets.bottom);

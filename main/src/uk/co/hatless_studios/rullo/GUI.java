@@ -14,14 +14,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Label;
 
-
-public class GUI extends JFrame {
-
+class GUI extends JFrame {
     private Label lblCount;
-    JPanel solution;
+    private JPanel solution;
 
-    GUI(int m, int n, Node[][] matrix, int[] rowSums, int[] columnSums){
-
+    GUI(int m, int n, Node[][] matrix, int[] rowSums, int[] columnSums) {
         //Creates window with solution heading and with solution pane
         setLayout(new BorderLayout(0, 10));
         this.getContentPane().setBackground(Color.BLACK);
@@ -45,17 +42,12 @@ public class GUI extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String[] args){
-        GUI app = new GUI(8, 8, new Node[][] {{new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}, {new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1), new Node(1)}}, new int[] {1, 1, 1, 1, 1, 1, 1, 1}, new int[] {1, 1, 1, 1, 1, 1, 1, 1});
-    }
-
     /**
      * Creates the panel in the grid layout
      * @param m, n : The dimensions of the grid
      * @param matrix : The matrix of nodes
      */
-    void createPanel(int m, int n, Node[][] matrix, int[] rowSums, int[] columnSums){
-
+    private void createPanel(int m, int n, Node[][] matrix, int[] rowSums, int[] columnSums) {
         //Create panel and set layout and properties
         solution = new JPanel();
         solution.setLayout(new GridBagLayout());
@@ -68,14 +60,14 @@ public class GUI extends JFrame {
 
         int maxLength = 0;
 
-        for (int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++){
                 if (Integer.toString(matrix[j][i].getValue()).length() > maxLength)
                     maxLength = Integer.toString(matrix[j][i].getValue()).length();
             }
         }
 
-        for (int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             if (Integer.toString(columnSums[i]).length() > maxLength)
                 maxLength = Integer.toString(columnSums[i]).length();
         }

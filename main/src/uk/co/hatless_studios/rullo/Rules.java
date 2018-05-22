@@ -13,14 +13,12 @@ import java.util.Map;
  * Each is logically both more powerful, and faster than the next.
  */
 class Rules {
-
     /**
      * Tests if every row in a matrix is fully locked.
      * @param matrix The matrix to be checked.
      * @return True if solved, else False.
      */
-    static boolean checkSolved(Node[][] matrix){
-
+    static boolean checkSolved(Node[][] matrix) {
         for (Node[] row : matrix) {
             if (!allLocked(row)){
                 return false;
@@ -62,7 +60,6 @@ class Rules {
      * @param aim The row's edge node.
      */
     static void finalElement(Node[] row, int aim) {
-
         int count = 0;
         for (Node node : row) {
             if (!node.isLocked()) {
