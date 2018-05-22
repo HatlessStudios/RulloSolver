@@ -21,7 +21,8 @@ public class Main implements KeyListener {
     private static final Insets insets = new Insets(5, 5, 5, 5);
 
     private final Object lock;
-    private JFrame frame;
+    private final JFrame frame;
+
     private JPanel dimPanel;
     private JLabel widthLabel;
     private JLabel heightLabel;
@@ -29,13 +30,14 @@ public class Main implements KeyListener {
     private JTextField heightField;
     private JButton cancelButton;
     private JButton nextButton;
+
     private JPanel tblPanel;
+    private JPanel dummyPanel;
     private JScrollPane tblPane;
     private JTable nodeTable;
     private MatrixModel tableModel;
     private JButton backButton;
     private JButton startButton;
-    private JPanel dummyPanel;
 
     public static void main(String[] args) {
         System.out.println("Rullo solver is running...");
@@ -45,21 +47,6 @@ public class Main implements KeyListener {
             main.showDim();
             main.initializeTbl();
         }
-
-        /*for (int i = 0; i < m; i++){
-            for (int j = 0; j < n; j++){
-                if (j != n - 1 || i != m - 1) {
-                    node_val = getIntInput(String.format("Please enter the node value for position x=[%d] y=[%d]", j + 1, i + 1));
-
-                    if (j == n - 1 || i == m - 1)
-                        matrix[i][j] = new RCDiff(node_val);
-                    else
-                        matrix[i][j] = new Node(node_val);
-                }
-                else
-                    matrix[i][j] = new Node(0);
-            }
-        }*/
     }
 
     private Main() {
@@ -102,11 +89,11 @@ public class Main implements KeyListener {
 
     private void initializeTbl() {
         tblPanel = new JPanel(new GridBagLayout());
+        dummyPanel = new JPanel();
         nodeTable = new JTable(tableModel = new MatrixModel());
         tblPane = new JScrollPane(nodeTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         backButton = new JButton("Back");
         startButton = new JButton("Start");
-        dummyPanel = new JPanel();
         GridBagConstraints constraints = new GridBagConstraints(0, 0, 3, 1,
                 1D, 1D, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
         tblPanel.add(tblPane, constraints);
@@ -155,7 +142,8 @@ public class Main implements KeyListener {
     }
 
     private void onStart() {
-        // TODO Forward matrix to GUI
+        frame.setVisible(false);
+        new GUI(tableModel.rows, tableModel.columns, tableModel.nodes, tableModel.rowSums, tableModel.columnSums);
     }
 
     @Override
@@ -186,6 +174,8 @@ public class Main implements KeyListener {
 
     private class MatrixModel extends AbstractTableModel {
         private Node[][] nodes;
+        private int[] rowSums;
+        private int[] columnSums;
         private int rows;
         private int columns;
 
@@ -195,28 +185,33 @@ public class Main implements KeyListener {
 
         @Override
         public int getRowCount() {
-            return rows;
+            return rows + 1;
         }
 
         @Override
         public int getColumnCount() {
-            return columns;
+            return columns + 1;
         }
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            return nodes[rowIndex][columnIndex].getValue();
+            if (rowIndex == 0 && columnIndex == 0) return null;
+            else if (rowIndex == 0) return columnSums[columnIndex - 1];
+            else if (columnIndex == 0) return rowSums[rowIndex - 1];
+            else return nodes[rowIndex - 1][columnIndex - 1].getValue();
         }
 
         @Override
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-            nodes[rowIndex][columnIndex] = new Node((int)aValue);
+            if (rowIndex == 0) columnSums[columnIndex - 1] = (int) aValue;
+            else if (columnIndex == 0) rowSums[rowIndex - 1] = (int) aValue;
+            else nodes[rowIndex - 1][columnIndex - 1] = new Node((int) aValue);
             fireTableCellUpdated(rowIndex, columnIndex);
         }
 
         @Override
         public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return true;
+            return rowIndex != 0 || columnIndex != 0;
         }
 
         @Override
@@ -225,9 +220,10 @@ public class Main implements KeyListener {
         }
 
         private void setSize(int rows, int columns) {
-            //int oldRows = this.rows, oldColumns = this.columns;
             this.rows = rows;
             this.columns = columns;
+            rowSums = new int[rows];
+            columnSums = new int[columns];
             nodes = new Node[rows][columns];
             for (int r = 0; r < rows; r++) for (int c = 0; c < columns; c++) nodes[r][c] = new Node(0);
             fireTableStructureChanged();
