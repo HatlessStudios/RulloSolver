@@ -15,6 +15,21 @@ import java.util.Map;
 class Rules {
 
     /**
+     * Tests if every row in a matrix is fully locked.
+     * @param matrix The matrix to be checked.
+     * @return True if solved, else False.
+     */
+    static boolean checkSolved(Node[][] matrix){
+
+        for (Node[] row : matrix) {
+            if (!allLocked(row)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Checks if all nodes in the list are locked.
      * @param row A list of nodes.
      * @return True if all nodes are locked, else False.
