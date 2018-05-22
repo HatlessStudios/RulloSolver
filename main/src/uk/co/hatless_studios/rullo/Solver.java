@@ -7,7 +7,8 @@ public class Solver {
      * @param rowVec The row sum vector.
      * @param colVec The column sum vector.
      */
-    public static Node[][] quickSolve(Node[][] matrix, int[] rowVec, int[] colVec) {
+    static Node[][] quickSolve(Node[][] matrix, int[] rowVec, int[] colVec) {
+
         // rOrC is false when checking rows, and true when checking columns.
         boolean rOrC = false;
 
@@ -21,8 +22,9 @@ public class Solver {
             matrix = transposeMatrix(matrix);
             rOrC = !rOrC;
         }
-        if (rOrC){
-            return transposeMatrix(matrix);
+        // Revert to original form.
+        if (rOrC) {
+            matrix = transposeMatrix(matrix);
         }
         return matrix;
     }
@@ -61,7 +63,7 @@ public class Solver {
                 Rules.finalElement(matrix[i], rowVec[i]);
                 Rules.valDiff(matrix[i], rowVec[i]);
                 Rules.singleOdd(matrix[i], rowVec[i]);
-                Rules.singlePartition(matrix[i], rowVec[i]);
+                //Rules.singlePartition(matrix[i], rowVec[i]);
             }
         }
     }

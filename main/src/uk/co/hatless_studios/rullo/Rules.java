@@ -135,6 +135,7 @@ class Rules {
             for (Node node : row) {
                 node.setLock();
             }
+            return;
         }
         if (sum < aim) throw new IllegalStateException("impossible to reach aim");
         boolean mod;
@@ -155,13 +156,13 @@ class Rules {
                 if (nodes.size() == 1) {
                     pruned.add(nodes.get(0));
                 } else {
-                    pruned.add(new MergedNode(nodes.toArray(row)));
+                    pruned.add(new MergedNode(nodes.toArray(new Node[0])));
                 }
             }
             row = pruned.toArray(new Node[0]);
         }
         Deque<Frame> stack = new ArrayDeque<>(row.length);
-        stack.add(new Frame(row[0], sum, new int[row.length]));
+        stack.add(new Frame(row[0], aim, new int[row.length]));
         while (stack.size() > 0) {
             Frame current = stack.peekLast();
             sum = current.sum - current.node.getValue();
@@ -169,7 +170,7 @@ class Rules {
                 current.node.setState();
                 for (Node node : row) if (node != current.node) node.setLock();
                 stack.removeLast();
-            } else if (sum < 0 || current.unvisited.length == 0) {
+            } else if (sum < 0 || current.unvisitedLength == 0) {
                 stack.removeLast();
             } else {
                 stack.add(new Frame(row[0], sum, Arrays.copyOf(current.unvisited, --current.unvisitedLength)));
@@ -184,8 +185,7 @@ class Rules {
      */
     private static int rowSum(Node[] row) {
         int sum = 0;
-        for (Node node :
-                row) {
+        for (Node node : row) {
             if (node.isOn()){
                 sum += node.getValue();
             }
