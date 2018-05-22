@@ -5,6 +5,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -18,12 +19,12 @@ public class CircleLabel extends JLabel {
     private float thickness;
 
 
-    public CircleLabel(String text, Color colour, Dimension size){
+    public CircleLabel(String text, Color colour, Dimension size, int width){
         super(text);
         setForeground(Color.WHITE);
         this.colour = colour;
         this.thickness = size.height/10;
-        setFont(new Font("Serif", Font.BOLD, size.height * 9 / 10));
+        setFont(new Font("Serif", Font.BOLD, (size.width / width)));
         setHorizontalAlignment(CENTER);
         super.setPreferredSize(size);
     }
