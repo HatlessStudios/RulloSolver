@@ -48,7 +48,7 @@ class Rules {
      * @param row A list of nodes.
      * @param aim The row's edge node.
      */
-    void checkSum(Node[] row, int aim) {
+    static void checkSum(Node[] row, int aim) {
         if (rowSum(row) == aim) {
             for (Node node : row) {
                 node.setLock();
