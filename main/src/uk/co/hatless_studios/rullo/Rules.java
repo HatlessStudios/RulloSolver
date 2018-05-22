@@ -150,7 +150,7 @@ class Rules {
                 duplicates.get(node.getValue()).add(node);
             }
             if (!mod) break;
-            List<Node> pruned = new ArrayList<>(row.length);
+            List<Node> pruned = new ArrayList<>();
             for (List<Node> nodes : duplicates.values()) {
                 if (nodes.size() == 1) {
                     pruned.add(nodes.get(0));
@@ -158,11 +158,7 @@ class Rules {
                     pruned.add(new MergedNode(nodes.toArray(row)));
                 }
             }
-            row = pruned.toArray(row);
-        }
-        switch (row.length) {
-            case 0: return;
-            case 1: throw new IllegalStateException("impossible to reach aim");
+            row = pruned.toArray(new Node[0]);
         }
         Deque<Frame> stack = new ArrayDeque<>(row.length);
         stack.add(new Frame(row[0], sum, new int[row.length]));
