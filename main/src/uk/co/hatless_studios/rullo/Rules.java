@@ -12,28 +12,7 @@ import java.util.Map;
  * Methods are listed in the order (descending) in which they should be used.
  * Each is logically both more powerful, and faster than the next.
  */
-public class Rules {
-    /**
-     * Wrapper for tree nodes. Makes partitioning much easier.
-     */
-    public class TreeNode {
-
-        private Node[] visited;
-        private Node[] toVisit;
-
-        TreeNode(Node[] visited, Node[] toVisit) {
-            this.visited = visited;
-            this.toVisit = toVisit;
-        }
-
-        public Node[] getToVisit() {
-            return toVisit;
-        }
-
-        public Node[] getVisited() {
-            return visited;
-        }
-    }
+class Rules {
 
     /**
      * Checks if all nodes in the list are locked.
@@ -178,12 +157,11 @@ public class Rules {
         while (stack.size() > 0) {
             Frame current = stack.peekLast();
             sum = current.sum - current.node.getValue();
-            if (current.sum - current.node.getValue() == 0) {
-                current.node.setLock();
+            if (sum == 0) {
+                current.node.setState();
+                for (Node node : row) if (node != current.node) node.setLock();
                 stack.removeLast();
-                continue;
-            }
-            if (current.unvisited.length == 0) {
+            } else if (sum < 0 || current.unvisited.length == 0) {
                 stack.removeLast();
             } else {
                 stack.add(new Frame(row[0], sum, Arrays.copyOf(current.unvisited, --current.unvisitedLength)));
@@ -207,6 +185,9 @@ public class Rules {
         return sum;
     }
 
+    /**
+     * Merges two nodes into one.
+     */
     private static class MergedNode extends Node {
         private Node[] nodes;
 
@@ -228,6 +209,9 @@ public class Rules {
         }
     }
 
+    /**
+     * Used for stack.
+     */
     private static class Frame {
         private Node node;
         private int sum;
