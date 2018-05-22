@@ -178,12 +178,11 @@ public class Rules {
         while (stack.size() > 0) {
             Frame current = stack.peekLast();
             sum = current.sum - current.node.getValue();
-            if (current.sum - current.node.getValue() == 0) {
-                current.node.setLock();
+            if (sum == 0) {
+                current.node.setState();
+                for (Node node : row) if (node != current.node) node.setLock();
                 stack.removeLast();
-                continue;
-            }
-            if (current.unvisited.length == 0) {
+            } else if (sum < 0 || current.unvisited.length == 0) {
                 stack.removeLast();
             } else {
                 stack.add(new Frame(row[0], sum, Arrays.copyOf(current.unvisited, --current.unvisitedLength)));
