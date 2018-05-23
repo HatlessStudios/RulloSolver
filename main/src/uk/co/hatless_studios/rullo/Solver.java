@@ -14,10 +14,10 @@ public class Solver {
 
         while (!Rules.checkSolved(matrix)) {
             if (!rOrC){
-                nextStep(matrix, rowVec);
+                nextStep(matrix, rowVec, colVec);
             }
             else {
-                nextStep(matrix, colVec);
+                nextStep(matrix, colVec, rowVec);
             }
             matrix = transposeMatrix(matrix);
             rOrC = !rOrC;
@@ -56,14 +56,19 @@ public class Solver {
      * @param matrix The matrix to be adjusted.
      * @param rowVec Sum vector for the rows.
      */
-    private static void nextStep(Node[][] matrix, int[] rowVec) {
+    private static void nextStep(Node[][] matrix, int[] rowVec, int[] colVec) {
         for (int i = 0; i < matrix.length; i++) {
             if (!Rules.allLocked(matrix[i])) {
                 Rules.checkSum(matrix[i], rowVec[i]);
+                new GUI(matrix.length, matrix[i].length, matrix, rowVec, colVec);
                 Rules.finalElement(matrix[i], rowVec[i]);
+                new GUI(matrix.length, matrix[i].length, matrix, rowVec, colVec);
                 Rules.valDiff(matrix[i], rowVec[i]);
+                new GUI(matrix.length, matrix[i].length, matrix, rowVec, colVec);
                 Rules.singleOdd(matrix[i], rowVec[i]);
-                //Rules.singlePartition(matrix[i], rowVec[i]);
+                new GUI(matrix.length, matrix[i].length, matrix, rowVec, colVec);
+                Rules.singlePartition(matrix[i], rowVec[i]);
+                new GUI(matrix.length, matrix[i].length, matrix, rowVec, colVec);
             }
         }
     }
