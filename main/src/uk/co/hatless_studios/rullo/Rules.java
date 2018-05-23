@@ -4,9 +4,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Methods are listed in the order (descending) in which they should be used.
@@ -76,7 +74,6 @@ class Rules {
                 for (Node node : row) {
                     if (!node.isLocked()) {
                         node.setState();
-                        node.setLock();
                         return;
                     }
                 }
@@ -91,7 +88,7 @@ class Rules {
     static void valDiff(Node[] row, int aim) {
         int rowDiff = rowSum(row) - aim;
         for (Node node : row) {
-            if (node.getValue() > rowDiff) {
+            if (node.getValue() > rowDiff && !node.isLocked()) {
                 node.setLock();
             }
         }
@@ -107,20 +104,14 @@ class Rules {
             return;
         }
         int count = 0;
+        Node cull = null;
         for (Node node : row) {
             if (node.isOdd() && node.isOn() && !node.isLocked()) {
+                cull = node;
                 count++;
             }
         }
-        if (count == 1) {
-            for (Node node : row) {
-                if (node.isOdd()) {
-                    node.setState();
-                    node.setLock();
-                    return;
-                }
-            }
-        }
+        if (count == 1) cull.setState();
     }
 
     /**
@@ -131,18 +122,46 @@ class Rules {
      */
     static void singlePartition(Node[] row, int aim) {
         int sum = rowSum(row);
-        if (sum == aim) {
-            for (Node node : row) {
-                node.setLock();
-            }
+        if (sum < aim) throw new IllegalStateException("impossible to reach aim");
+        else if (sum == aim) {
+            for (Node node : row) if (!node.isLocked()) node.setLock();
             return;
         }
-        if (sum < aim) throw new IllegalStateException("impossible to reach aim");
-        boolean mod;
+        int[] cull = null;
+        List<Node> unvisited = new ArrayList<>(row.length);
+        for (Node node : row) if (!node.isLocked()) unvisited.add(node);
+        int count = 0;
+        Deque<Frame> stack = new ArrayDeque<>(row.length);
+        for (int index = 0; index < row.length; index++) if (!row[index].isLocked()) stack.add(new Frame(row[index], sum - aim, new int[row.length - 1], index, row));
+        while (stack.size() > 0) {
+            Frame current = stack.peekLast();
+            sum = current.sum - current.node.getValue();
+            if (sum == 0) {
+                for (int index : current.visited) unvisited.remove(row[index]);
+                if (cull == current.visited) {
+                    cull = current.visited;
+                    count++;
+                }
+                //current.node.setLock();
+                //for (Node node : row) if (node != current.node) node.setState();
+                stack.removeLast();
+            } else if (sum < 0 || current.unvisitedLength == 0) {
+                stack.removeLast();
+            } else {
+                stack.add(new Frame(row[current.unvisited[current.unvisitedLength - 1]], sum, Arrays.copyOf(current.unvisited, --current.unvisitedLength), current.visited, current.unvisited[current.unvisitedLength]));
+            }
+        }
+        if (count == 1) {
+            for (int index : cull) row[index].setState();
+            for (Node node : unvisited) if (!node.isLocked()) node.setLock();
+        }
+        if (unvisited.size() == 1 && !unvisited.get(0).isLocked()) unvisited.get(0).setLock();
+        /*boolean mod;
         while (true) {
             mod = false;
             Map<Integer, List<Node>> duplicates = new HashMap<>();
             for (Node node : row) {
+                if (node.isLocked()) continue;
                 if (!duplicates.containsKey(node.getValue())) {
                     duplicates.put(node.getValue(), new ArrayList<>());
                 } else {
@@ -168,14 +187,14 @@ class Rules {
             sum = current.sum - current.node.getValue();
             if (sum == 0) {
                 current.node.setLock();
-                for (Node node : row) if (node != current.node) node.setState();
+                //for (Node node : row) if (node != current.node) node.setState();
                 stack.removeLast();
             } else if (sum < 0 || current.unvisitedLength == 0) {
                 stack.removeLast();
             } else {
                 stack.add(new Frame(row[0], sum, Arrays.copyOf(current.unvisited, --current.unvisitedLength)));
             }
-        }
+        }*/
     }
 
     /**
@@ -224,13 +243,28 @@ class Rules {
         private Node node;
         private int sum;
         private int[] unvisited;
+        private int[] visited;
         private int unvisitedLength;
 
-        private Frame(Node node, int sum, int[] unvisited) {
+        private Frame(Node node, int sum, int[] unvisited, int[] visited, int index) {
             this.node = node;
             this.sum = sum;
             this.unvisited = unvisited;
-            unvisitedLength = unvisited.length;
+            this.unvisitedLength = unvisited.length;
+            this.visited = Arrays.copyOf(visited, visited.length + 1);
+            this.visited[visited.length] = index;
+        }
+
+        private Frame(Node node, int sum, int[] unvisited, int current, Node[] nodes) {
+            this.node = node;
+            this.sum = sum;
+            this.unvisited = unvisited;
+            unvisitedLength = unvisited.length + 1;
+            for (int index = 0, pos = 0; index < unvisitedLength + 1; index++) {
+                if (index != current && !nodes[index].isLocked()) unvisited[pos++] = index;
+                else unvisitedLength--;
+            }
+            visited = new int[] {current};
         }
     }
 }

@@ -5,14 +5,16 @@ import uk.co.hatless_studios.rullo.graphics.CircleLabel;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Label;
+import java.awt.image.BufferStrategy;
 
 class GUI extends JFrame {
     private Label lblCount;
@@ -30,7 +32,6 @@ class GUI extends JFrame {
         //Set window properties
         setTitle("Rullo Solution");
         setSize(500, 500);
-        setLocation(250, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
@@ -39,7 +40,16 @@ class GUI extends JFrame {
         createPanel(m, n, matrix, rowSums, columnSums);
         this.getContentPane().add(solution, BorderLayout.CENTER);
         this.pack();
+        setLocationRelativeTo(null);
         setVisible(true);
+        setIgnoreRepaint(true);
+        createBufferStrategy(2);
+        BufferStrategy bs = getBufferStrategy();
+        while (true) {
+            Graphics g = bs.getDrawGraphics();
+            paintAll(g);
+            bs.show();
+        }
     }
 
     /**
@@ -82,20 +92,20 @@ class GUI extends JFrame {
             for (int j = 0; j < m; j++){
                 constraints.gridx = i;
                 constraints.gridy = j + 1;
-                solution.add(new CircleLabel(Integer.toString(matrix[j][i].getValue()), matrix[j][i].getState() ? Color.GREEN : Color.RED, new Dimension((this.getWidth()/m) - 50, (this.getHeight()/n) - 50), maxLength), constraints);
+                solution.add(new CircleLabel(matrix[j][i], new Dimension((this.getWidth()/m) - 50, (this.getHeight()/n) - 50), maxLength), constraints);
             }
 
             //Add column sum to end of column
             constraints.gridx = i;
             constraints.gridy = m + 1;
-            solution.add(new CircleLabel(Integer.toString(columnSums[i]), Color.YELLOW, new Dimension((this.getWidth()/m) - 50, (this.getHeight()/n) - 50), maxLength), constraints);
+            solution.add(new CircleLabel(columnSums[i], new Dimension((this.getWidth()/m) - 50, (this.getHeight()/n) - 50), maxLength), constraints);
         }
 
         //Add row sums to end of rows
         for (int j = 0; j < m; j++){
             constraints.gridx = n;
             constraints.gridy = j + 1;
-            solution.add(new CircleLabel(Integer.toString(rowSums[j]), Color.YELLOW, new Dimension((this.getWidth()/m) - 50, (this.getHeight()/n) - 50), maxLength), constraints);
+            solution.add(new CircleLabel(rowSums[j], new Dimension((this.getWidth()/m) - 50, (this.getHeight()/n) - 50), maxLength), constraints);
         }
     }
 }

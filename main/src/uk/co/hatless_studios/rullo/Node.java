@@ -1,6 +1,6 @@
 package uk.co.hatless_studios.rullo;
 
-class Node {
+public class Node {
 
     private int value;
     private boolean state;
@@ -14,11 +14,11 @@ class Node {
 
     }
 
-    int getValue(){
+    public int getValue(){
         return value;
     }
 
-    boolean isOn(){
+    public boolean isOn(){
         return state;
     }
 
@@ -26,17 +26,18 @@ class Node {
         return (value % 2) == 1;
     }
 
-    boolean isLocked(){
+    public boolean isLocked(){
         return lock;
     }
 
-    boolean getState() { return state; }
+    public boolean getState() { return state; }
 
-    void setState(){
+    void setState() {
         state = false;
+        lock = true;
     }
 
-    void setLock(){
+    void setLock() {
         lock = true;
     }
 

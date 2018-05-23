@@ -1,5 +1,7 @@
 package uk.co.hatless_studios.rullo.graphics;
 
+import uk.co.hatless_studios.rullo.Node;
+
 import javax.swing.JLabel;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,17 +15,20 @@ import java.awt.geom.Ellipse2D;
 
 
 public class CircleLabel extends JLabel {
-    private Color colour;
+    private Node node;
     private float thickness;
 
+    public CircleLabel(Node node, Dimension size, int width) {
+        this(node.getValue(), size, width);
+        this.node = node;
+    }
 
-    public CircleLabel(String text, Color colour, Dimension size, int width) {
-        super(text);
-        setForeground(Color.WHITE);
-        this.colour = colour;
+    public CircleLabel(int value, Dimension size, int width) {
+        super(Integer.toString(value));
         this.thickness = size.height/10;
         setFont(new Font("Serif", Font.BOLD, (size.width / width)));
         setHorizontalAlignment(CENTER);
+        setForeground(Color.WHITE);
         super.setPreferredSize(size);
     }
 
@@ -43,7 +48,6 @@ public class CircleLabel extends JLabel {
         } else {
             draw(g);
         }
-
         g.dispose();
     }
 
@@ -54,9 +58,10 @@ public class CircleLabel extends JLabel {
         int radius = Math.max(width, height);
         int x = insets.left + ((width - radius) / 2);
         int y = insets.top + ((height - radius) / 2);
-
-        g.setColor(colour);
+        g.setColor(getBackgroundColor());
+        g.fillOval(x, y, radius, radius);
         super.paintComponent(g);
+        g.setColor(getColor());
         g.drawOval(x, y, radius, radius);
     }
 
@@ -67,9 +72,20 @@ public class CircleLabel extends JLabel {
         double radius = Math.max(width, height) - thickness;
         double x = insets.left + ((width - radius) / 2);
         double y = insets.top + ((height - radius) / 2);
-        g2d.setColor(colour);
-        super.paintComponent(g2d);
         g2d.setStroke(new BasicStroke(thickness));
-        g2d.draw(new Ellipse2D.Double(x, y, radius, radius));
+        Ellipse2D shape = new Ellipse2D.Double(x, y, radius, radius);
+        g2d.setColor(getBackgroundColor());
+        g2d.fill(shape);
+        super.paintComponent(g2d);
+        g2d.setColor(getColor());
+        g2d.draw(shape);
+    }
+
+    private Color getColor() {
+        return node == null ? Color.YELLOW : node.getState() ? Color.GREEN : Color.RED;
+    }
+
+    private Color getBackgroundColor() {
+        return node == null || !node.isLocked() ? Color.BLACK : Color.GRAY;
     }
 }
