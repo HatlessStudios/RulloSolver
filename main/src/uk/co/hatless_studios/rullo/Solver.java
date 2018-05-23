@@ -60,15 +60,10 @@ public class Solver {
         for (int i = 0; i < matrix.length; i++) {
             if (!Rules.allLocked(matrix[i])) {
                 Rules.checkSum(matrix[i], rowVec[i]);
-                new GUI(matrix.length, matrix[i].length, matrix, rowVec, colVec);
                 Rules.finalElement(matrix[i], rowVec[i]);
-                new GUI(matrix.length, matrix[i].length, matrix, rowVec, colVec);
                 Rules.valDiff(matrix[i], rowVec[i]);
-                new GUI(matrix.length, matrix[i].length, matrix, rowVec, colVec);
                 Rules.singleOdd(matrix[i], rowVec[i]);
-                new GUI(matrix.length, matrix[i].length, matrix, rowVec, colVec);
                 Rules.singlePartition(matrix[i], rowVec[i]);
-                new GUI(matrix.length, matrix[i].length, matrix, rowVec, colVec);
             }
         }
     }

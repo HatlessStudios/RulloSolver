@@ -167,8 +167,8 @@ class Rules {
             Frame current = stack.peekLast();
             sum = current.sum - current.node.getValue();
             if (sum == 0) {
-                current.node.setState();
-                for (Node node : row) if (node != current.node) node.setLock();
+                current.node.setLock();
+                for (Node node : row) if (node != current.node) node.setState();
                 stack.removeLast();
             } else if (sum < 0 || current.unvisitedLength == 0) {
                 stack.removeLast();
