@@ -82,7 +82,7 @@ public class CircleLabel extends JLabel {
     }
 
     private Color getColor() {
-        return node == null ? Color.YELLOW : node.getState() ? Color.GREEN : Color.RED;
+        return node == null ? Color.YELLOW : node.isOn() ? Color.GREEN : Color.RED;
     }
 
     private Color getBackgroundColor() {

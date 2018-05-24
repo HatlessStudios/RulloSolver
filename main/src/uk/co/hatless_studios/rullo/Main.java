@@ -143,8 +143,8 @@ public class Main implements KeyListener {
 
     private void onStart() {
         frame.setVisible(false);
-        new Thread(() -> Solver.quickSolve(tableModel.nodes, tableModel.rowSums, tableModel.columnSums), "Solver").start();
-        new GUI(tableModel.rows, tableModel.columns, tableModel.nodes, tableModel.rowSums, tableModel.columnSums);
+        GUI ui = new GUI(tableModel.rows, tableModel.columns, tableModel.nodes, tableModel.rowSums, tableModel.columnSums);
+        Solver.quickSolve(tableModel.nodes, tableModel.rowSums, tableModel.columnSums, ui::repaint);
 
     }
 

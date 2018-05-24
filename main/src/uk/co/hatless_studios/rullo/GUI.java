@@ -9,12 +9,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Label;
-import java.awt.image.BufferStrategy;
 
 class GUI extends JFrame {
     private Label lblCount;
@@ -33,7 +31,6 @@ class GUI extends JFrame {
         setTitle("Rullo Solution");
         setSize(500, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setVisible(true);
         setResizable(false);
 
         //Generate solution panel and pack into window
@@ -42,14 +39,8 @@ class GUI extends JFrame {
         this.pack();
         setLocationRelativeTo(null);
         setVisible(true);
-        setIgnoreRepaint(true);
         createBufferStrategy(2);
-        BufferStrategy bs = getBufferStrategy();
-        while (true) {
-            Graphics g = bs.getDrawGraphics();
-            paintAll(g);
-            bs.show();
-        }
+        setVisible(true);
     }
 
     /**
