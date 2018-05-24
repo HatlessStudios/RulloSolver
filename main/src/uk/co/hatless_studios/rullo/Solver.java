@@ -66,8 +66,8 @@ class Solver {
             }
         }
         for (int index = 0; index < nodes.length; index++) {
-            if (!inOne[index]) current.setState(queue, index);
-            if (inAll[index]) current.setLock(queue, index);
+            if (!inOne[index]) current.setState(queue, index, callback);
+            if (inAll[index]) current.setLock(queue, index, callback);
         }
     }
 

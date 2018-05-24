@@ -29,16 +29,20 @@ class Row {
         return aim;
     }
 
-    void setState(Deque<Row> queue, int index) {
+    void setState(Deque<Row> queue, int index, Runnable callback) {
         if (nodes[index].isOn()) {
             queue.add(rows[index]);
             queue.add(this);
+            callback.run();
         }
         nodes[index].setState();
     }
 
-    void setLock(Deque<Row> queue, int index) {
-        if (!nodes[index].isLocked()) queue.add(rows[index]);
+    void setLock(Deque<Row> queue, int index, Runnable callback) {
+        if (!nodes[index].isLocked()) {
+            queue.add(rows[index]);
+            callback.run();
+        }
         nodes[index].setLock();
     }
 }
